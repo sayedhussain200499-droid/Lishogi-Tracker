@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Shogi Achievements</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#eef0f4;--card:#fff;--tx:#1c1f24;--mu:#6b7280;--ln:#dde1e7;--ac:#1f7fe0;--gold:#c99700;--gb:#fff6d6}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121315;--card:#1c1d20;--tx:#e8e9ec;--mu:#9aa0a8;--ln:#2e3035;--ac:#3fa4ff;--gold:#ffd24a;--gb:#2b2512}}
+:root[data-theme="dark"]{--bg:#121315;--card:#1c1d20;--tx:#e8e9ec;--mu:#9aa0a8;--ln:#2e3035;--ac:#3fa4ff;--gold:#ffd24a;--gb:#2b2512}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.4 system-ui,-apple-system,sans-serif}
+#app{max-width:620px;margin:0 auto;padding:12px 12px 40px}
+.hd{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--ln);border-radius:12px 12px 0 0;padding:14px}
+.gi{width:64px;height:64px;border-radius:10px;background:linear-gradient(135deg,#b8321f,#7a1f12);color:#fff;display:grid;place-items:center;font-size:34px;flex:none}
+h1{margin:0;font-size:22px}.sub{color:var(--mu);font-size:13px}
+.st{display:flex;background:var(--card);border:1px solid var(--ln);border-top:0;padding:10px 14px}
+.st div{flex:1;text-align:center;font-size:13px;color:var(--mu)}.st b{font-size:20px;color:var(--tx)}.st small{display:block}
+.fb{background:var(--card);border:1px solid var(--ln);border-top:0;padding:0 14px 14px;border-radius:0 0 12px 12px}
+.pb{height:8px;background:var(--ln);border-radius:5px;overflow:hidden;margin-top:6px}
+.pb i{display:block;height:100%;background:var(--ac);border-radius:5px}
+.fb .pb i{background:var(--gold)}
+.ms{margin:10px 0 0;text-align:center;font-weight:700;color:var(--gold)}
+.tb{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.tb button,.tb select{padding:7px 12px;border:1px solid var(--ln);background:var(--card);color:var(--tx);border-radius:8px;font:inherit;font-size:13px}
+.tb button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.r{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--ln);border-radius:10px;padding:10px;margin-bottom:8px}
+.r.on{background:var(--gb);border-color:var(--gold)}
+.b{width:56px;height:56px;flex:none;border-radius:8px;display:grid;place-items:center;font-size:28px;background:var(--bg);border:2px solid var(--ln);filter:grayscale(1);opacity:.55}
+.r.on .b{filter:none;opacity:1;border-color:var(--gold);box-shadow:0 0 8px var(--gold)}
+.m{flex:1;min-width:0}.t span{color:var(--mu);font-size:13px}
+.d{color:var(--mu);font-size:13px;margin-top:1px}
+.pt,.dt{font-size:12px;color:var(--mu);margin-top:3px}.dt{color:var(--gold);font-weight:600}
+.ct{display:flex;gap:4px;margin-top:6px}
+.ct button{width:34px;height:34px;border-radius:8px;border:1px solid var(--ln);background:var(--bg);color:var(--tx);font-size:18px}
+.ct input{width:64px;height:34px;text-align:center;border:1px solid var(--ln);border-radius:8px;background:var(--bg);color:var(--tx);font:inherit}
+.x button{border:1px solid var(--ln);background:var(--bg);color:var(--tx);border-radius:8px;padding:7px 10px;font:inherit;font-size:13px}
+.x .ul{background:var(--ac);border-color:var(--ac);color:#fff}
+.ft{text-align:center;color:var(--mu);font-size:12px;margin-top:18px}
+.pn{background:var(--card);border:1px solid var(--ln);border-radius:10px;padding:12px;margin-bottom:10px;font-size:13px}.pn ol{padding-left:18px;margin:6px 0}.pn textarea{width:100%;box-sizing:border-box;background:var(--bg);color:var(--tx);border:1px solid var(--ln);border-radius:8px;margin:6px 0}.pn button{padding:7px 12px;border:1px solid var(--ln);background:var(--bg);color:var(--tx);border-radius:8px;font:inherit;font-size:13px}
+</style></head><body>
+<div id="app"></div>
+<script>
+const C=[["Games","🎮"],["Special wins","⚡"],["Checkmates","👑"],["Tsume","🧩"],["Openings","🏯"],["Rank","🥋"],["Study","📖"],["Community","🤝"]];
+const Z=[
+["gp","Just One More Game","Play {n} shogi games",0,[1,10,100,1000],[2,5,10,25]],
+["wn","Sente of Accomplishment","Win {n} games",0,[1,10,100,500],[2,5,10,25]],
+["ws","Rook and Roll","Win {n} games in a row",0,[3,5,10],[3,10,25]],
+["ts","Case Closed","Solve {n} tsume",3,[1,10,100,1000],[2,5,10,25]],
+["tk","Flawless Mate","Solve {n} tsume in a row without a mistake",3,[5,10,25],[3,10,25]],
+["th","Mating Season","Spend {n} hours on tsume",3,[1,10,24],[2,5,10]],
+["ov","Variety Show","Play {n} different openings",4,[3,5,10],[2,5,10]],
+["en","Engine Whisperer","Analyze {n} of your games with an engine",6,[1,10,50],[2,5,10]],
+["pr","Over the Pro's Shoulder","Replay {n} professional games",6,[1,10,50],[2,5,10]],
+["tn","Tournament Arc","Join {n} tournaments",7,[1,10],[5,10]],
+["wt","Around the World in 80 Games","Play opponents from {n} different countries",7,[3,10],[5,15]],
+["dd","Daily Dose","Play shogi {n} days in a row",7,[7,30,100],[5,10,25]]];
+const X=[
+["Sente & Sensibility","Win as both Sente (Black) and Gote (White)",0,5],
+["Pawn Takes Giant","Beat a player rated well above you",0,10],
+["Ghost in the Shogi","Play a bot",0,2],
+["Odds Are Good","Win a handicap game as the weaker side",0,10],
+["Blink and You'll Resign","Win in under 40 moves",1,5],
+["Are We There Yet?","Play a game over 150 moves",1,10],
+["Saved by the Byoyomi","Win with under a second left on your clock",1,10],
+["Leave No Piece Behind","Win without losing a single piece",1,10],
+["Rook Bottom","Win after losing your rook",1,10],
+["Royal Road Trip","Win by nyūgyoku (entering-king) declaration",1,25],
+["Groundhog Game","Draw by repetition (sennichite)",1,5],
+["Pawn Star","Deliver mate with a pawn move",2,10],
+["Lance-a-lot","Deliver mate with a lance",2,5],
+["A Knight's Tale","Deliver mate with a knight",2,10],
+["Silver Lining","Deliver mate with a silver",2,5],
+["Goldfinger","Deliver mate with a gold",2,5],
+["Holy Diagonal","Deliver mate with a bishop",2,5],
+["Straight to the Point","Deliver mate with a rook",2,5],
+["Level Up","Deliver mate with a promoted piece",2,5],
+["Drop the Mic","Deliver mate with a dropped piece",2,5],
+["The Tsume Factory","Solve 100 tsume in one day",3,25],
+["Nine to Mate","Solve a tsume of 9+ moves",3,10],
+["Rock Steady","Win with Ibisha (Static Rook)",4,5],
+["Rook on the Range","Win with Furibisha (Ranging Rook)",4,5],
+["Minotaur","Win after building a Mino castle",4,5],
+["Hibernation Station","Win after building an Anaguma castle",4,5],
+["Tower of Power","Win with a Yagura castle",4,5],
+["White Belt","Reach 15 kyu on your main site",5,2],
+["Green Belt","Reach 10 kyu",5,5],
+["Brown Belt","Reach 5 kyu",5,10],
+["One Step Short","Reach 1 kyu",5,25],
+["Black Belt","Reach 1 dan",5,50],
+["Third Degree","Reach 3 dan",5,50],
+["Shogi 101","Finish a beginner course or book",6,5],
+["Friendly Fire","Play a friend",7,2],
+["Dojo Mojo","Join a club or dojo",7,5]];
+const R=['I','II','III','IV'],A=[];
+C.forEach((c,ci)=>{
+  Z.filter(z=>z[3]==ci).forEach(z=>z[4].forEach((t,k)=>A.push({id:z[0]+t,n:z[1]+' '+R[k],d:z[2].replace('{n}',t),c:ci,p:z[5][k],s:z[0],t})));
+  X.filter(x=>x[2]==ci).forEach(x=>A.push({id:x[0],n:x[0],d:x[1],c:ci,p:x[3]}));
+});
+const app=document.getElementById('app');
+let S={c:{},u:{}};
+try{const l=JSON.parse(localStorage.getItem('shogi-ach2')||'null');if(l&&l.u)S=l}catch(e){}
+if(!S||typeof S!=='object'||Array.isArray(S))S={c:{},u:{}};if(!S.c||typeof S.c!=='object'||Array.isArray(S.c))S.c={};if(!S.u||typeof S.u!=='object'||Array.isArray(S.u))S.u={};
+let flt='all',cf=-1,so='def',msg='',pn=false;
+const AUTO=new Set(['gp','wn','ws','dd','tn',"Ghost in the Shogi","Sente & Sensibility","Pawn Takes Giant","Odds Are Good","Blink and You'll Resign","Are We There Yet?","Royal Road Trip","Groundhog Game","Leave No Piece Behind","Rook Bottom","Pawn Star","Lance-a-lot","A Knight's Tale","Silver Lining","Goldfinger","Holy Diagonal","Straight to the Point","Level Up","Drop the Mic"]);
+const fd=ms=>new Date(ms).toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'});
+function save(){try{localStorage.setItem('shogi-ach2',JSON.stringify(S))}catch(e){}}
+const SER=new Set(['gp','wn','ws','dd','tn']);
+const esc=x=>String(x).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+function merge(P){
+  if(!P||typeof P!=='object'||!P.u||typeof P.u!=='object'||!P.c||typeof P.c!=='object')throw 0;
+  let k=0;const ids=new Set(A.map(a=>a.id)),ok=v=>typeof v==='number'&&isFinite(v)&&v>0;
+  for(const id in P.u)if(ids.has(id)&&ok(P.u[id])&&!S.u[id]){S.u[id]=P.u[id];k++}
+  for(const s in P.c)if(SER.has(s)&&ok(P.c[s]))S.c[s]=Math.max(S.c[s]||0,Math.floor(P.c[s]));
+  S.sy={at:Date.now(),user:String(P.user||'').slice(0,40),n:Math.max(0,+P.n||0)};save();return k;
+}
+function apply(enc){
+  try{const P=JSON.parse(decodeURIComponent(escape(atob(enc.replace(/-/g,'+').replace(/_/g,'/')))));
+    const k=merge(P);msg=`· Synced ${S.sy.n} games for ${S.sy.user}: ${k} new unlocks`}
+  catch(e){msg='· Could not read sync data'}
+}
+function syncFn(TR){(async()=>{const T0=document.title;try{
+  const T={gp:[1,10,100,1000],wn:[1,10,100,500],ws:[3,5,10],dd:[7,30,100],tn:[1,10]};
+  const NM={P:'Pawn Star',L:'Lance-a-lot',N:"A Knight's Tale",S:'Silver Lining',G:'Goldfinger',B:'Holy Diagonal',R:'Straight to the Point'};
+  const user=(document.body&&document.body.dataset.user)||(location.pathname.match(/^\/@\/([^\/?#]+)/)||[])[1]||prompt('Lishogi username?');
+  if(!user)return;const lu=user.toLowerCase();document.title='Syncing…';
+  const r=await fetch('/api/games/user/'+encodeURIComponent(user)+'?moves=true',{headers:{Accept:'application/x-ndjson'}});
+  if(r.status==429){alert('Lishogi rate limit. Wait a minute and retry.');return}
+  if(!r.ok){alert('Lishogi returned '+r.status);return}
+  const raw=(await r.text()).split('\n').filter(Boolean);const G=raw.map(l=>{try{return JSON.parse(l)}catch(e){return null}}).filter(g=>g&&typeof g==='object').sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));
+  if(!G.length){alert(raw.length?'Lishogi sent an unexpected format (not ndjson). First line: '+raw[0].slice(0,120):'No games found for '+user);return}
+  const U={},C={gp:0,wn:0,ws:0,dd:0,tn:0},tours=new Set(),sides={sente:0,gote:0};
+  let played=0,wins=0,streak=0,run=0,lastDay=null;
+  const set=(k,t)=>{if(k&&!U[k])U[k]=t};
+  const tier=(s,n,t)=>{C[s]=Math.max(C[s],n);T[s].forEach(x=>{if(n>=x)set(s+x,t)})};
+  const nm=p=>((p&&p.user&&(p.user.name||p.user.id))||'').toLowerCase();
+  const replay=(g,col)=>{try{
+    let sf=g.initialSfen;if(!sf||sf==='startpos')sf='lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b -';
+    const [bd,tn]=sf.split(' '),B={};
+    bd.split('/').forEach((row,r)=>{let f=9;for(let i=0;i<row.length;i++){let c=row[i];if(/\d/.test(c)){f-=+c;continue}if(c==='+')c+=row[++i];B[f+String.fromCharCode(97+r)]=c;f--}});
+    let turn=tn==='w'?'gote':'sente',lost=0,rook=false,last=null;
+    g.moves.split(' ').filter(Boolean).forEach(m=>{
+      let pc,drop=false;const to=m.slice(2,4);
+      if(m[1]==='*'){pc=turn==='sente'?m[0].toUpperCase():m[0].toLowerCase();drop=true}
+      else{const fr=m.slice(0,2);pc=B[fr];delete B[fr];if(m[4]==='+')pc='+'+pc}
+      const cap=B[to];
+      if(cap&&(cap===cap.toUpperCase()?'sente':'gote')===col){lost++;if(cap.replace('+','').toUpperCase()==='R')rook=true}
+      B[to]=pc;last={base:pc.replace('+','').toUpperCase(),pro:pc[0]==='+',drop};
+      turn=turn==='sente'?'gote':'sente';
+    });
+    return{lost,rook,last};
+  }catch(e){return null}};
+  for(const g of G){
+    const t=g.createdAt||g.lastMoveAt||Date.now(),st=(g.status&&g.status.name)||g.status||'',P=g.players||{};
+    const col=nm(P.sente)===lu?'sente':nm(P.gote)===lu?'gote':null;
+    if(!col||['created','started','aborted','noStart'].includes(st))continue;
+    const me=P[col],op=P[col==='sente'?'gote':'sente'];
+    const win=g.winner===col,draw=!g.winner,ms=(g.moves||'').split(' ').filter(Boolean),plies=ms.length;
+    const vk=g.variant&&(g.variant.key||g.variant),std=!vk||vk==='standard';
+    played++;tier('gp',played,t);
+    const d=new Date(t),dk=Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5;
+    if(dk!==lastDay){run=(lastDay!==null&&dk===lastDay+1)?run+1:1;lastDay=dk}
+    tier('dd',run,t);
+    if(g.tournament){tours.add(g.tournament.id||g.tournament);tier('tn',tours.size,t)}
+    if((op&&op.user&&op.user.title==='BOT')||(op&&op.aiLevel))set('Ghost in the Shogi',t);
+    if(plies>150)set('Are We There Yet?',t);
+    if(draw&&/repetition|sennichite/i.test(st))set('Groundhog Game',t);
+    if(!win){streak=0;continue}
+    wins++;tier('wn',wins,t);streak++;tier('ws',streak,t);
+    sides[col]++;if(sides.sente&&sides.gote)set('Sente & Sensibility',t);
+    if(op&&me&&op.rating&&me.rating&&op.rating-me.rating>=200)set('Pawn Takes Giant',t);
+    if(std&&plies>=8&&plies<40)set("Blink and You'll Resign",t);
+    if(/impasse|nyugyoku|entering/i.test(st))set('Royal Road Trip',t);
+    const sf=g.initialSfen;
+    if(sf&&sf!=='startpos'){const b=sf.split(' ')[0],up=(b.match(/[A-Z]/g)||[]).length,lo=(b.match(/[a-z]/g)||[]).length;
+      if((col==='sente'&&up>lo)||(col==='gote'&&lo>up))set('Odds Are Good',t)}
+    if(std&&plies){const R=replay(g,col);
+      if(R){if(R.lost===0&&plies>=20)set('Leave No Piece Behind',t);if(R.rook)set('Rook Bottom',t);
+        if(st==='mate'&&R.last){if(R.last.drop)set('Drop the Mic',t);if(R.last.pro)set('Level Up',t);else set(NM[R.last.base],t)}}}
+  }
+  const out={u:U,c:C,user,n:played};
+  const enc=btoa(unescape(encodeURIComponent(JSON.stringify(out)))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  try{navigator.clipboard.writeText(enc)}catch(e){}
+  location.href=TR+'#sync='+enc;
+}catch(e){alert('Sync failed: '+e.message)}finally{document.title=T0}})()}
+function bm(){return 'javascript:'+encodeURIComponent('('+syncFn.toString()+')('+JSON.stringify(location.href.split('#')[0])+')')}
+function copy(){const f=()=>prompt('Copy this bookmarklet:',bm());try{navigator.clipboard.writeText(bm()).then(()=>{msg='· Bookmarklet copied';render()}).catch(f)}catch(e){f()}}
+function pasteIn(){const v=(document.getElementById('pt')||{}).value;if(v&&v.trim())apply(v.trim())}
+function boot(){const m=location.hash.match(/^#sync=(.+)$/);if(m){apply(m[1]);history.replaceState(null,'',location.href.split('#')[0])}}
+function panel(){
+  let h='<div class="tb"><button data-a="sy">⟳ Sync with Lishogi</button></div>';
+  if(pn)h+='<div class="pn"><b>One-tap sync</b><ol><li>Tap <i>Copy bookmarklet</i>, create a bookmark in your browser, and paste it as the bookmark URL.</li><li>Open lishogi.org while logged in and run that bookmark. It sends you back here with your results.</li></ol><button data-a="cp">Copy bookmarklet</button><p>If the redirect fails, paste the sync code here (it is copied to your clipboard automatically):</p><textarea id="pt" rows="3"></textarea><button data-a="ps">Import</button></div>';
+  return h;
+}
+function relock(i){const a=A[i];if(a.s){S.c[a.s]=Math.min(S.c[a.s]||0,a.t-1);A.forEach(x=>{if(x.s==a.s&&x.t>=a.t)delete S.u[x.id]})}else delete S.u[a.id]}
+function setC(s,v){
+  v=Math.max(0,Math.floor(+v||0));S.c[s]=v;
+  A.forEach(a=>{if(a.s==s&&v>=a.t&&!S.u[a.id])S.u[a.id]=Date.now()});
+  save();
+}
+function row(a){
+  const i=A.indexOf(a),u=S.u[a.id],v=a.s?(S.c[a.s]||0):0;
+  let mid='',act='';
+  if(a.s&&!u){
+    mid=`<div class="pb"><i style="width:${Math.min(v/a.t,1)*100}%"></i></div><div class="pt">${Math.min(v,a.t)} / ${a.t}</div>`;
+    if(A.find(x=>x.s==a.s&&!S.u[x.id])===a)mid+=`<div class="ct"><button data-a="d" data-s="${a.s}">−</button><input type="number" inputmode="numeric" min="0" value="${v}" data-s="${a.s}"><button data-a="u" data-s="${a.s}">+</button></div>`;
+  }
+  if(u)act=`<button data-a="r" data-i="${i}" title="Relock">↺</button>`;
+  else if(!a.s)act=`<button class="ul" data-a="k" data-i="${i}">Unlock</button>`;
+  return `<div class="r ${u?'on':''}"><div class="b">${C[a.c][1]}</div><div class="m"><div class="t"><b>${a.n}</b> <span>(${a.p})${AUTO.has(a.s||a.id)?' ⟳':''}</span></div><div class="d">${a.d}</div>${mid}${u?`<div class="dt">Unlocked ${fd(u)}</div>`:''}</div><div class="x">${act}</div></div>`;
+}
+function render(){
+  const y=scrollY,N=A.length,dn=A.filter(a=>S.u[a.id]).length;
+  const tp=A.reduce((s,a)=>s+a.p,0),pe=A.reduce((s,a)=>s+(S.u[a.id]?a.p:0),0),pct=Math.round(dn/N*100);
+  let L=A.filter(a=>(flt=='all'||(flt=='done')==!!S.u[a.id])&&(cf<0||a.c==cf));
+  if(so=='pts')L.sort((a,b)=>b.p-a.p);
+  else if(so=='ttl')L.sort((a,b)=>a.n.localeCompare(b.n));
+  else if(so=='rec')L.sort((a,b)=>(S.u[b.id]||0)-(S.u[a.id]||0));
+  let h=`<div class="hd"><div class="gi">☗</div><div><h1>Shogi</h1><div class="sub">Achievement Set · ${N} achievements · ${tp} points</div></div></div>`;
+  h+=`<div class="st"><div><b>${dn}</b> / ${N}<small>Achievements</small></div><div><b>${pe}</b> / ${tp}<small>Points</small></div><div><b>${pct}%</b><small>Complete</small></div></div>`;
+  h+=`<div class="fb"><div class="pb"><i style="width:${pct}%"></i></div>${dn==N?'<div class="ms">🏆 Mastered</div>':''}</div>`;
+  h+=panel()+'<div class="tb">'+[['all','All'],['lock','Locked'],['done','Unlocked']].map(([k,l])=>`<button data-f="${k}" class="${flt==k?'on':''}">${l}</button>`).join('');
+  h+=`<select data-sel="cf"><option value="-1">All categories</option>${C.map((c,i)=>`<option value="${i}" ${cf==i?'selected':''}>${c[1]} ${c[0]}</option>`).join('')}</select>`;
+  h+=`<select data-sel="so">${[['def','Default order'],['pts','Most points'],['ttl','Title A–Z'],['rec','Recently unlocked']].map(([k,l])=>`<option value="${k}" ${so==k?'selected':''}>${l}</option>`).join('')}</select></div>`;
+  h+=L.map(row).join('')||'<p class="ft">Nothing here yet.</p>';
+  h+=`<p class="ft">Saved on this device only${S.sy?` · Last sync ${fd(S.sy.at)} (${esc(S.sy.user)})`:''} ${esc(msg)}</p>`;
+  app.innerHTML=h;scrollTo(0,y);
+}
+app.addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+  if(d.f)flt=d.f;else if(d.a=='sy')pn=!pn;else if(d.a=='cp')copy();else if(d.a=='ps')pasteIn();
+  else if(d.a=='k'){S.u[A[+d.i].id]=Date.now();save()}
+  else if(d.a=='r'){relock(+d.i);save()}
+  else if(d.a=='u')setC(d.s,(S.c[d.s]||0)+1);
+  else if(d.a=='d')setC(d.s,(S.c[d.s]||0)-1);
+  render();
+});
+app.addEventListener('change',e=>{
+  const t=e.target,d=t.dataset;
+  if(t.matches('input'))setC(d.s,t.value);
+  else if(d.sel=='cf')cf=+t.value;
+  else if(d.sel=='so')so=t.value;
+  render();
+});
+boot();render();
+</script></body></html>
